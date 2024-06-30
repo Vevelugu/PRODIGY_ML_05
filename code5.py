@@ -1,8 +1,8 @@
 '''
 The following code was implemented to train a decision tree model to identify food items using multiclass
 classification technique. The model was then used to predict the type of food item shown in the pic and
-the nutrition details. 
-The trainfunc() function has the training code for the model. The model was trained to differenciate
+provide the nutrition details. 
+The trainfunc() function has the training code for the model. The model was trained to differentiate
 amongst 5 different food items namely, apple, banana, bread, egg and grape. 
 The food_nutrition() function has the nutrition values and depicts the values of the food item predicted
 by the model.
@@ -12,7 +12,6 @@ from skimage.io import imread
 from skimage.transform import resize
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier as dtc
@@ -21,6 +20,7 @@ from sklearn.metrics import confusion_matrix as cm, accuracy_score
 import random
 import pickle 
 
+# training function using a multiclass decision tree classifier 
 def trainfunc(image_dir):
     
     Categories = os.listdir(image_dir)
@@ -65,11 +65,17 @@ def trainfunc(image_dir):
     print(f"Confusion Matrix:\n{cm_report}")
     return model
 
-image_dir = r"D:\AK\Career\Python\ProdigyInfotech\Task05_foodidentification\PRODIGY_ML_05\Food"
+'''
+'image_dir' variable contains path to the training folder. Paste the path to the 'Food' folder from github
+in this variable. 
+'''
+image_dir = r"PRODIGY_ML_05\Food"
 model = trainfunc(image_dir)
 Categories = os.listdir(image_dir)
 
-
+'''
+food_nutrition() function gives the nutrition value of the food chosen.
+'''
 
 def food_nutrition(model, img, Categories):
     
@@ -93,18 +99,32 @@ def food_nutrition(model, img, Categories):
 
 
 
-
-pathu = r"D:\AK\Career\Python\ProdigyInfotech\Task05_foodidentification\PRODIGY_ML_05\Test"
+'''
+The 'pathu' variable should be given path to the 'Test' folder. I put 5 images of each of the 5 food items 
+and used the random.choice() function to select one random image for prediction and nutrition values 
+display. 
+'''
+pathu = "\.\\PRODIGY_ML_05\\Test"
 rand_img = random.choice(os.listdir(pathu))
 food_nutrition(model, rand_img, Categories)
 
 
-model_pkl_file = r"D:\AK\Career\Python\ProdigyInfotech\Task05_foodidentification\PRODIGY_ML_05\model_dtc_pkl.pkl"
 
+
+'''
+This is the code used to save and load models using pickle
+'''
+model_pkl_file = r"D:\AK\Career\Python\ProdigyInfotech\Task05_foodidentification\PRODIGY_ML_05\model_dtc_pkl.pkl"
+# for saving
 with open(model_pkl_file, 'wb') as file: 
     pickle.dump(model, file)
 
-
+# for loading
 model_pkl_file = r"D:\AK\Career\Python\ProdigyInfotech\Task05_foodidentification\PRODIGY_ML_05\model_dtc_pkl.pkl"
 with open(model_pkl_file, 'rb') as file:
     model = pickle.load(file)
+
+'''
+To test the saved model from the repo load it using the code above first and then directly run the 
+food_nutrition() function.
+'''
